@@ -27,8 +27,6 @@ class MainActivity : ComponentActivity() {
     private val _orderHistoryViewModel: OrderHistoryViewModel by viewModels()
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

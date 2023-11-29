@@ -14,8 +14,6 @@ object ProductRepository {
             throw Exception("Error fetching products")
 
         }
-
-
     }
 
     suspend fun getProductById(productId: Int): Product {
@@ -33,3 +31,4 @@ object ProductRepository {
             }
     }
 }
+

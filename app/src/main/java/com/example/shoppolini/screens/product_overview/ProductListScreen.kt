@@ -104,6 +104,7 @@ fun ProductListScreen(
 @Composable
 fun ProductItem(
     product: Product,
+    onBuyClick: () -> Unit = {},
     onClick: () -> Unit = {}
 ) {
     Row(
@@ -115,8 +116,7 @@ fun ProductItem(
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Implement the image and other UI elements as per your design
-        // ...
+
 
         Column(
             modifier = Modifier
@@ -137,6 +137,20 @@ fun ProductItem(
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.Gray
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = product.description,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            Button(
+                onClick = onBuyClick, // Use the onBuyClick lambda
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .size(40.dp, 20.dp), // Align the button to the end of the column
+            ) {
+                Text("Buy")
+            }
             // Add more details as needed
         }
     }
