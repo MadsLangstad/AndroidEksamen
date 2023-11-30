@@ -13,6 +13,13 @@ class ShoppingCartListViewModel : ViewModel() {
     private val _cartProducts = MutableStateFlow<List<Product>>(emptyList())
     val cartProducts: StateFlow<List<Product>> = _cartProducts.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
+    private val _totalPrice = MutableStateFlow(0.0)
+    val totalPrice = _totalPrice.asStateFlow()
+
+
     // Function to add product to cart
     fun addProductToCart(product: Product) {
         val updatedList = _cartProducts.value.toMutableList().apply {
@@ -23,11 +30,7 @@ class ShoppingCartListViewModel : ViewModel() {
     }
 
 
-    private val _totalPrice = MutableStateFlow(0.0)
-    val totalPrice = _totalPrice.asStateFlow()
 
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading = _isLoading.asStateFlow()
 
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage = _errorMessage.asStateFlow()
