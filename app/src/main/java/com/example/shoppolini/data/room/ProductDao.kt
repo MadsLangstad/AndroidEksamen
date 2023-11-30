@@ -6,15 +6,14 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.shoppolini.data.Product
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductDao {
     @Query("SELECT * FROM Products")
-    fun getProducts(): Flow<List<Product>>
+    suspend fun getProducts(): List<Product>
 
     @Query("SELECT * FROM Products WHERE :productId = id")
-    fun getProductById(productId: Int): Flow<Product?>
+    suspend fun getProductById(productId: Int): Product
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProducts(products: List<Product>)

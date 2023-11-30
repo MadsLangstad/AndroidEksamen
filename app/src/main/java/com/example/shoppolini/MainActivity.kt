@@ -1,6 +1,7 @@
 package com.example.shoppolini
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -27,13 +28,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.shoppolini.data.ProductRepository
 import com.example.shoppolini.screens.order_history.OrderHistoryScreen
 import com.example.shoppolini.screens.order_history.OrderHistoryViewModel
 import com.example.shoppolini.screens.product_details.ProductDetailsScreen
@@ -53,6 +58,8 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        ProductRepository.initiateAppDatabase(applicationContext)
 
         setContent {
             ShoppoliniTheme {
@@ -171,7 +178,7 @@ fun CartIconBadge(
                     fontSize = 12.sp,
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .offset(x = 6.dp, y = -6.dp)
+                        .offset(x = 6.dp, y = (-6).dp)
                         .background(Color.Red, shape = CircleShape)
                         .padding(4.dp)
                 )
