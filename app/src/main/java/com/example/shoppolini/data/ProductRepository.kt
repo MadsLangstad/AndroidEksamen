@@ -3,6 +3,12 @@ package com.example.shoppolini.data
 object ProductRepository {
     suspend fun getProducts(): List<Product> {
 
+        /**
+        var list: List<Product> = listOf(Product(1, "Hårføner", 123.0, "Føn håret ditt", "Hårpleie", ""))
+        return list
+         **/
+
+
         val response = RetrofitInstance.apiService.getProducts()
 
         if (response.isSuccessful) {

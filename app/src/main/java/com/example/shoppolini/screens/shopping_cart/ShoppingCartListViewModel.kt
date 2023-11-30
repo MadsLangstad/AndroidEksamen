@@ -4,12 +4,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shoppolini.data.Product
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ShoppingCartListViewModel : ViewModel() {
+
     private val _cartProducts = MutableStateFlow<List<Product>>(emptyList())
-    val cartProducts = _cartProducts.asStateFlow()
+    val cartProducts: StateFlow<List<Product>> = _cartProducts.asStateFlow()
+
+    // Function to add product to cart
+    fun addProductToCart(product: Product) {
+        val updatedList = _cartProducts.value.toMutableList().apply {
+            add(product)
+        }
+        _cartProducts.value = updatedList
+        // If using a real backend, make an API call here
+    }
+
 
     private val _totalPrice = MutableStateFlow(0.0)
     val totalPrice = _totalPrice.asStateFlow()

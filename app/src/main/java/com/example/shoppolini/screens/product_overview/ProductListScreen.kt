@@ -1,6 +1,5 @@
 package com.example.shoppolini.screens.product_overview
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.example.shoppolini.data.Product
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.shoppolini.screens.shopping_cart.ShoppingCartListViewModel
 
 @Composable
 fun ProductListScreen(
@@ -52,14 +52,6 @@ fun ProductListScreen(
                 text = "Products",
                 style = MaterialTheme.typography.titleLarge
             )
-            Button(onClick = { navController.navigate("shoppingCartListScreen") }) {
-                Text("Go to Cart")
-            }
-            Button(onClick = { navController.navigate("orderHistoryScreen") }) {
-                Text("View Order History")
-            }
-
-
             Row(
                 modifier = Modifier.weight(1f),
                 horizontalArrangement = Arrangement.End,
@@ -71,14 +63,6 @@ fun ProductListScreen(
                     Icon(
                         imageVector = Icons.Default.Refresh,
                         contentDescription = "Refresh Products"
-                    )
-                }
-                IconButton(
-                    onClick = { /*TODO*/ }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.MoreVert,
-                        contentDescription = "More Options"
                     )
                 }
             }
@@ -105,7 +89,8 @@ fun ProductListScreen(
 fun ProductItem(
     product: Product,
     onBuyClick: () -> Unit = {},
-    onClick: () -> Unit = {}
+    onClick: () -> Unit,
+    viewModel: ShoppingCartListViewModel = viewModel()
 ) {
     Row(
         modifier = Modifier
@@ -144,10 +129,11 @@ fun ProductItem(
                 overflow = TextOverflow.Ellipsis
             )
             Button(
-                onClick = onBuyClick, // Use the onBuyClick lambda
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .size(40.dp, 20.dp), // Align the button to the end of the column
+                onClick = {
+                    viewModel.addProductToCart(product)
+                    onBuyClick() // If you have additional logic for the button click
+                },
+                modifier = Modifier.align(Alignment.End)
             ) {
                 Text("Buy")
             }

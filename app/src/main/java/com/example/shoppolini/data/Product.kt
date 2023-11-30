@@ -12,4 +12,3 @@ data class Product(
     val category: String,
     val image: String
 )
-

@@ -11,4 +11,3 @@ interface FakeStoreApi {
     @GET("products/{id}")
     suspend fun getProductById(@Path("id") productId: Int): Response<Product?>
 }
-
