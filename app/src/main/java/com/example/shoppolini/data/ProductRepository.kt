@@ -37,7 +37,8 @@ object ProductRepository {
             context = context,
             AppDatabase::class.java,
             name = "appDatabase"
-        ).build()
+        ).fallbackToDestructiveMigration()
+            .build();
     }
 
     suspend fun getProducts(): List<Product> {

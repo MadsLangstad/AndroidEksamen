@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 
 class ProductDetailsViewModel : ViewModel() {
+
     private val _selectedProduct = MutableStateFlow<Product?>(null)
     val selectedProduct = _selectedProduct.asStateFlow()
 
@@ -24,4 +25,5 @@ class ProductDetailsViewModel : ViewModel() {
             _isLoading.value = false
         }
     }
+
 }

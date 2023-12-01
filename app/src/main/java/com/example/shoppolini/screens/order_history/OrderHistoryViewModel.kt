@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class OrderHistoryViewModel : ViewModel() {
-
-
+class OrderHistoryViewModel() : ViewModel() {
 
     fun loadOrderHistory() {
         viewModelScope.launch {
+
         }
     }
 }

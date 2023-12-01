@@ -2,14 +2,18 @@ package com.example.shoppolini.screens.shopping_cart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shoppolini.data.Cart
+import com.example.shoppolini.data.Order
 import com.example.shoppolini.data.Product
+import com.example.shoppolini.data.room.AppDatabase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ShoppingCartListViewModel : ViewModel() {
+class ShoppingCartListViewModel() : ViewModel() {
 
+    private lateinit var _appDatabase: AppDatabase
     private val _cartProducts = MutableStateFlow<List<Product>>(emptyList())
     val cartProducts: StateFlow<List<Product>> = _cartProducts.asStateFlow()
 
@@ -20,13 +24,23 @@ class ShoppingCartListViewModel : ViewModel() {
     val totalPrice = _totalPrice.asStateFlow()
 
 
-    // Function to add product to cart
-    fun addProductToCart(product: Product) {
-        val updatedList = _cartProducts.value.toMutableList().apply {
-            add(product)
+    fun addToCart(productId: Int) {
+        viewModelScope.launch {
+            val cartItem = Cart(productId = productId, quantity = 1)
+            _appDatabase.cartDao().addToCart(cartItem)
         }
-        _cartProducts.value = updatedList
-        // If using a real backend, make an API call here
+    }
+
+    fun checkout() {
+        viewModelScope.launch {
+            val cartItems = _appDatabase.cartDao().getCartItems()
+            cartItems.forEach { cartItem ->
+                val product = _appDatabase.productDao().getProductById(cartItem.productId)
+                val order = Order(id = 0, title = product.title, totalPrice = product.price * cartItem.quantity, quantity = cartItem.quantity)
+                _appDatabase.orderDao().insertOrder(order)
+            }
+            _appDatabase.cartDao().clearCart()
+        }
     }
 
 

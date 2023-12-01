@@ -69,13 +69,8 @@ class MainActivity : ComponentActivity() {
                     topBar = {
                         MyAppBar(
                             title = "Shoppolini",
-                            onCartClick = { navController.navigate("shoppingCartListScreen") },
-                            onBackButtonClick = {
-                                if (navController.previousBackStackEntry != null) {
-                                    navController.popBackStack()
-                                }
-                            },
                             onOrderHistoryClick = { navController.navigate("orderHistoryScreen") },
+onCartClick = { navController.navigate("shoppingCartListScreen") },
                             viewModel = _shoppingCartListViewModel
                         )
                     }
@@ -132,20 +127,11 @@ class MainActivity : ComponentActivity() {
 fun MyAppBar(
     title: String,
     onCartClick: () -> Unit,
-    onBackButtonClick: () -> Unit,
     onOrderHistoryClick: () -> Unit,
     viewModel: ShoppingCartListViewModel
 ) {
     TopAppBar(
         title = { Text(text = title) },
-        navigationIcon = {
-            IconButton(onClick = { onBackButtonClick() }) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Back"
-                )
-            }
-        },
         actions = {
             CartIconBadge(viewModel = viewModel, onCartClick = onCartClick)
             IconButton(onClick = { onOrderHistoryClick() }) {
