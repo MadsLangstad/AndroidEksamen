@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ShoppingCartListViewModel() : ViewModel() {
+class ShoppingCartListViewModel : ViewModel() {
 
     private lateinit var _appDatabase: AppDatabase
     private val _cartProducts = MutableStateFlow<List<Product>>(emptyList())
@@ -51,13 +51,25 @@ class ShoppingCartListViewModel() : ViewModel() {
 
     fun loadCartProducts() {
         viewModelScope.launch {
+            _isLoading.value = true
             try {
-                _isLoading.value = true
-                _cartProducts.value = listOf()
-                _totalPrice.value = _cartProducts.value.sumOf { it.price }
+                // Fetch cart items
+                val cartItems = _appDatabase.cartDao().getCartItems()
+
+                // Fetch product details for each cart item and calculate total price
+                val products = mutableListOf<Product>()
+                var totalPrice = 0.0
+                cartItems.forEach { cartItem ->
+                    val product = _appDatabase.productDao().getProductById(cartItem.productId)
+                    totalPrice += product.price * cartItem.quantity
+                    products.add(product)
+                }
+
+                _cartProducts.value = products
+                _totalPrice.value = totalPrice
                 _errorMessage.value = null
             } catch (e: Exception) {
-                _errorMessage.value = "Error loading cart products"
+                _errorMessage.value = "Error loading cart products: ${e.message}"
             } finally {
                 _isLoading.value = false
             }

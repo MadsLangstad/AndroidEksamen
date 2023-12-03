@@ -2,6 +2,8 @@ package com.example.shoppolini.screens.product_overview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shoppolini.data.Cart
+import com.example.shoppolini.data.CartRepository
 import com.example.shoppolini.data.Product
 import com.example.shoppolini.data.ProductRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +28,18 @@ class ProductListViewModel : ViewModel() {
             _isLoading.value = true
             _products.value = ProductRepository.getProducts()
             _isLoading.value = false
+        }
+    }
+
+    fun onBuyProduct(productId: Int, quantity: Int) {
+        viewModelScope.launch {
+            try {
+                val cartItem = Cart(productId = productId, quantity = quantity)
+                CartRepository.addToCart(cartItem)
+                // Optionally, add some UI feedback here
+            } catch (e: Exception) {
+                // Handle the error appropriately
+            }
         }
     }
 }

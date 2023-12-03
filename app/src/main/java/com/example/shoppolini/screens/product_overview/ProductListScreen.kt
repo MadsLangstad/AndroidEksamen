@@ -83,7 +83,7 @@
         product: Product,
         onBuyClick: () -> Unit = {},
         onClick: () -> Unit,
-        viewModel: ShoppingCartListViewModel = viewModel()
+        viewModel: ProductListViewModel = viewModel()
     ) {
         Row(
             modifier = Modifier
@@ -134,8 +134,7 @@
             ) {
                 IconButton(
                     onClick = {
-                        viewModel.addToCart(product.id)
-                        onBuyClick() // Additional logic for the button click
+                        viewModel.onBuyProduct(product.id, 1) // Additional logic for the button click
                     }
                 ) {
                     Icon(

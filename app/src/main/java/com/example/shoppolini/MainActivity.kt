@@ -1,7 +1,7 @@
 package com.example.shoppolini
 
 import android.os.Bundle
-import android.view.View
+
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.ArrowBack
+
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -28,16 +28,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.shoppolini.data.CartRepository
 import com.example.shoppolini.data.ProductRepository
 import com.example.shoppolini.screens.order_history.OrderHistoryScreen
 import com.example.shoppolini.screens.order_history.OrderHistoryViewModel
@@ -60,6 +58,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         ProductRepository.initiateAppDatabase(applicationContext)
+        CartRepository.initiateAppDatabase(applicationContext)
+
 
         setContent {
             ShoppoliniTheme {
@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
                         MyAppBar(
                             title = "Shoppolini",
                             onOrderHistoryClick = { navController.navigate("orderHistoryScreen") },
-onCartClick = { navController.navigate("shoppingCartListScreen") },
+                            onCartClick = { navController.navigate("shoppingCartListScreen") },
                             viewModel = _shoppingCartListViewModel
                         )
                     }

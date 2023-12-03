@@ -14,6 +14,11 @@ import com.example.shoppolini.data.Product
 fun ShoppingCartListScreen(
     viewModel: ShoppingCartListViewModel
 ) {
+
+    /*
+        LaunchedEffect(Unit) {
+            viewModel.loadCartProducts()
+      */
     val cartProducts by viewModel.cartProducts.collectAsState()
     val totalPrice by viewModel.totalPrice.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
