@@ -19,6 +19,13 @@ class ShoppingCartListViewModel : ViewModel() {
         loadCartItems()
     }
 
+    fun refreshCartItems() {
+        viewModelScope.launch {
+            // Call the method to reload cart items
+            loadCartItems()
+        }
+    }
+
     fun loadCartItems() {
         viewModelScope.launch {
             val cartList = CartRepository.getCartItems()
