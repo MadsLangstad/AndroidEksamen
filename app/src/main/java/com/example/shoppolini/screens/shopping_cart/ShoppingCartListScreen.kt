@@ -6,60 +6,48 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shoppolini.data.Product
 
 @Composable
 fun ShoppingCartListScreen(
-    viewModel: ShoppingCartListViewModel
+    viewModel: ShoppingCartListViewModel = viewModel()
 ) {
-
-    /*
-        LaunchedEffect(Unit) {
-            viewModel.loadCartProducts()
-      */
-    val cartProducts by viewModel.cartProducts.collectAsState()
-    val totalPrice by viewModel.totalPrice.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-    val errorMessage by viewModel.errorMessage.collectAsState()
+    val cartItems by viewModel.cartItems.collectAsState()
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
-        if (isLoading) {
+        Text(
+            text = "Shopping Cart",
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+        Divider()
 
-            CircularProgressIndicator()
-        } else {
-            if (errorMessage != null) {
-                // Show error message
-                Text(text = errorMessage!!, color = Color.Red)
+        LazyColumn {
+            items(cartItems) { (product, quantity) ->
+                CartProductItem(product = product, quantity = quantity)
             }
-
-            LazyColumn {
-                items(cartProducts) { product ->
-                    CartProductItem(product = product)
-                    Divider()
-                }
-            }
-
-            // Total price
-            Text(
-                text = "Total Price: $totalPrice",
-                style = MaterialTheme.typography.titleLarge
-            )
         }
     }
 }
 
 @Composable
-fun CartProductItem(product: Product) {
+fun CartProductItem(product: Product, quantity: Int) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = product.title, style = MaterialTheme.typography.titleLarge)
         Text(text = "Price: ${product.price}", style = MaterialTheme.typography.titleLarge)
-        // Add more product details or actions like remove button
+        Text(text = "Quantity: $quantity", style = MaterialTheme.typography.titleLarge)
+        Text(text = "Total: ${product.price * quantity}", style = MaterialTheme.typography.titleLarge)
     }
+
 }

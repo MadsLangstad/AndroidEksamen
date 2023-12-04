@@ -134,7 +134,7 @@
             ) {
                 IconButton(
                     onClick = {
-                        viewModel.onBuyProduct(product.id, 1) // Additional logic for the button click
+                        viewModel.onBuyProduct(product.id, 1, product.title) // Additional logic for the button click
                     }
                 ) {
                     Icon(

@@ -149,7 +149,7 @@ fun CartIconBadge(
     viewModel: ShoppingCartListViewModel,
     onCartClick: () -> Unit
 ) {
-    val cartProducts by viewModel.cartProducts.collectAsState()
+    val cartProducts by viewModel.cartItems.collectAsState()
     IconButton(onClick = { onCartClick() }) {
         Box(contentAlignment = Alignment.TopEnd) {
             Icon(
