@@ -36,6 +36,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.shoppolini.data.CartRepository
+import com.example.shoppolini.data.OrderRepository
 import com.example.shoppolini.data.ProductRepository
 import com.example.shoppolini.screens.order_history.OrderHistoryScreen
 import com.example.shoppolini.screens.order_history.OrderHistoryViewModel
@@ -57,9 +58,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Initializing the AppDatabase instances
         ProductRepository.initiateAppDatabase(applicationContext)
         CartRepository.initiateAppDatabase(applicationContext)
-
+        OrderRepository.initiateAppDatabase(applicationContext)
 
         setContent {
             ShoppoliniTheme {

@@ -1,11 +1,10 @@
 package com.example.shoppolini.data
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Room
 import com.example.shoppolini.data.room.AppDatabase
 
-object CartRepository {
+object OrderRepository {
 
     private lateinit var _appDatabase: AppDatabase
 
@@ -21,31 +20,24 @@ object CartRepository {
         }
     }
 
-    // Add a product to the cart
-    suspend fun addToCart(cartItem: Cart) {
+
+    // Add a catItem to orderHistory
+    suspend fun insertOrder(order: Order) {
         try {
-            _appDatabase.cartDao().addToCart(cartItem)
+            _appDatabase.orderDao().insertOrder(order)
         } catch (e: Exception) {
-            Log.e("CartRepository", "Error adding to cart: ${e.message}")
+            e.printStackTrace()
         }
     }
 
-    // Get all the cart items
-    suspend fun getCartItems(): List<Cart> {
+
+    // Get all the orders
+    suspend fun getAllOrders(): List<Order> {
         return try {
-            _appDatabase.cartDao().getCartItems()
+            _appDatabase.orderDao().getAllOrders()
         } catch (e: Exception) {
-            Log.e("CartRepository", "Error fetching cart items: ${e.message}")
             emptyList()
         }
     }
 
-    // Clear the cart
-    suspend fun clearCart() {
-        try {
-            _appDatabase.cartDao().clearCart()
-        } catch (e: Exception) {
-            Log.e("CartRepository", "Error clearing cart: ${e.message}")
-        }
-    }
 }

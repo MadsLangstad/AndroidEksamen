@@ -38,6 +38,14 @@ fun ShoppingCartListScreen(
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(bottom = 16.dp)
         )
+        Button(
+            onClick = { viewModel.completePurchase() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text("Complete Purchase")
+        }
         IconButton(onClick = { viewModel.refreshCartItems() }) {
             Icon(imageVector = Icons.Default.Refresh, contentDescription = "Refresh")
         }
@@ -56,7 +64,6 @@ fun CartProductItem(
     product: Product,
     quantity: Int,
     onRemoveClick: () -> Unit = {}, // Assuming you have a remove action
-    viewModel: ShoppingCartListViewModel = viewModel() // ViewModel for handling actions
 ) {
     Row(
         modifier = Modifier
