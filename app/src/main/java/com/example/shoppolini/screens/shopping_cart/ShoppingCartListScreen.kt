@@ -25,6 +25,7 @@ import com.example.shoppolini.data.Product
 @Composable
 fun ShoppingCartListScreen(
     viewModel: ShoppingCartListViewModel = viewModel()
+
 ) {
     val cartItems by viewModel.cartItems.collectAsState()
 
@@ -63,7 +64,7 @@ fun ShoppingCartListScreen(
 fun CartProductItem(
     product: Product,
     quantity: Int,
-    onRemoveClick: () -> Unit = {}, // Assuming you have a remove action
+    viewModel: ShoppingCartListViewModel = viewModel()
 ) {
     Row(
         modifier = Modifier
@@ -116,7 +117,7 @@ fun CartProductItem(
         ) {
             IconButton(
                 onClick = {
-                    onRemoveClick() // Handle remove action
+                    viewModel.onDeleteProduct(product.id)
                 }
             ) {
                 Icon(

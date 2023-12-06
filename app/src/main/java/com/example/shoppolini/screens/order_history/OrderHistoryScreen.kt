@@ -34,6 +34,7 @@ import com.example.shoppolini.screens.shopping_cart.ShoppingCartListViewModel
 @Composable
 fun OrderHistoryScreen(
     viewModel: OrderHistoryViewModel = viewModel()
+
 ) {
     val orders by viewModel.orders.collectAsState()
 
@@ -45,8 +46,6 @@ fun OrderHistoryScreen(
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(bottom = 16.dp)
         )
-        Divider()
-
         LazyColumn {
             items(orders) { order ->
                 OrderItem(order = order)
@@ -62,6 +61,11 @@ fun OrderItem(
     order: Order,
     viewModel: OrderHistoryViewModel = viewModel()
 ) {
+    Text(
+        text = "Price: ${order.totalPrice}",
+        style = MaterialTheme.typography.titleLarge,
+        color = Color.Gray
+    )
     Row(
         modifier = Modifier
             .fillMaxWidth()

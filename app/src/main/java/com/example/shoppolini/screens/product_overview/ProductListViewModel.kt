@@ -48,4 +48,15 @@
             }
         }
 
+        fun onDeleteProduct(productId: Int) {
+            viewModelScope.launch {
+                try {
+                    CartRepository.deleteFromCart(productId)
+                    // Optionally, add some UI feedback here
+                } catch (e: Exception) {
+                    // Handle the error appropriately
+                }
+            }
+        }
+
     }

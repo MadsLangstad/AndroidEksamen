@@ -43,6 +43,17 @@ class ShoppingCartListViewModel : ViewModel() {
         }
     }
 
+    fun onDeleteProduct(productId: Int) {
+        viewModelScope.launch {
+            try {
+                CartRepository.deleteFromCart(productId)
+                // Optionally, add some UI feedback here
+            } catch (e: Exception) {
+                // Handle the error appropriately
+            }
+        }
+    }
+
     fun completePurchase() {
         viewModelScope.launch {
             _cartItems.value.forEach { (product, quantity) ->
