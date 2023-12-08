@@ -28,7 +28,6 @@
     import androidx.lifecycle.viewmodel.compose.viewModel
     import androidx.navigation.NavController
     import coil.compose.AsyncImage
-    import com.example.shoppolini.screens.shopping_cart.ShoppingCartListViewModel
 
     @Composable
     fun ProductListScreen(
@@ -134,11 +133,11 @@
             ) {
                 IconButton(
                     onClick = {
-                        viewModel.onBuyProduct(product.id, 1, product.title) // Additional logic for the button click
+                        viewModel.onBuyProduct(product.id, 1, product.title)
                     }
                 ) {
                     Icon(
-                        imageVector = Icons.Default.ShoppingCart, // Using a shopping cart icon
+                        imageVector = Icons.Default.ShoppingCart,
                         contentDescription = "Buy"
                     )
                 }
