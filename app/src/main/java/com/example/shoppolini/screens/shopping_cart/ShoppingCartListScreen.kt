@@ -22,10 +22,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.shoppolini.data.Product
 
+
 @Composable
 fun ShoppingCartListScreen(
     viewModel: ShoppingCartListViewModel = viewModel()
-
 ) {
     val cartItems by viewModel.cartItems.collectAsState()
 
@@ -34,11 +34,23 @@ fun ShoppingCartListScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Text(
-            text = "Shopping Cart",
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+        // Row for the title and the refresh button
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Shopping Cart",
+                style = MaterialTheme.typography.titleLarge
+            )
+            IconButton(onClick = { viewModel.refreshCartItems() }) {
+                Icon(imageVector = Icons.Default.Refresh, contentDescription = "Refresh")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp)) // Space after the title row
+
         Button(
             onClick = { viewModel.completePurchase() },
             modifier = Modifier
@@ -47,9 +59,7 @@ fun ShoppingCartListScreen(
         ) {
             Text("Complete Purchase")
         }
-        IconButton(onClick = { viewModel.refreshCartItems() }) {
-            Icon(imageVector = Icons.Default.Refresh, contentDescription = "Refresh")
-        }
+
         Divider()
 
         LazyColumn {
@@ -59,6 +69,7 @@ fun ShoppingCartListScreen(
         }
     }
 }
+
 
 @Composable
 fun CartProductItem(

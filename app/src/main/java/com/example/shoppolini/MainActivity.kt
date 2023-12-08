@@ -7,9 +7,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
@@ -27,6 +29,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -71,6 +74,7 @@ class MainActivity : ComponentActivity() {
                     topBar = {
                         MyAppBar(
                             title = "Shoppolini",
+                            onLogoClick = { navController.navigate("productListScreen") },
                             onOrderHistoryClick = { navController.navigate("orderHistoryScreen") },
                             onCartClick = { navController.navigate("shoppingCartListScreen") },
                             viewModel = _shoppingCartListViewModel
@@ -128,12 +132,21 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MyAppBar(
     title: String,
+    onLogoClick: () -> Unit,
     onCartClick: () -> Unit,
     onOrderHistoryClick: () -> Unit,
     viewModel: ShoppingCartListViewModel
 ) {
     TopAppBar(
-        title = { Text(text = title) },
+        title = {
+            // Need FIX!
+            IconButton(
+                modifier = Modifier.width(100.dp).shadow(100.dp, CircleShape),
+                onClick = { onLogoClick() }) {
+                Text(text = "")
+            }
+            Spacer(Modifier.width(8.dp)) // Add spacing between logo and title
+            Text(text = title) },
         actions = {
             CartIconBadge(viewModel = viewModel, onCartClick = onCartClick)
             IconButton(onClick = { onOrderHistoryClick() }) {
