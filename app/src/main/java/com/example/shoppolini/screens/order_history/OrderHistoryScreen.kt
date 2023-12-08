@@ -77,17 +77,17 @@ fun OrderItem(
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 8.dp)
             .shadow(elevation = 4.dp, shape = RoundedCornerShape(10))
-            .background(color = Color.White),
+            .background(color = Color.LightGray),
     ) {
         Text(
             text = "Order ID: ${order.id}",
             fontWeight = FontWeight.Bold,
-            color = Color.Gray,
+            color = Color.Black,
             modifier = Modifier.padding(8.dp)
         )
         Text(
             text = "Total Price: ${order.totalPrice}",
-            color = Color.Gray,
+            color = Color.Black,
             modifier = Modifier.padding(8.dp)
         )
         lineItems.forEach { lineItem ->
@@ -104,7 +104,7 @@ fun OrderItem(
                 )
                 Text(
                     text = "Price: ${lineItem.price}",
-                    color = Color.Gray
+                    color = Color.Black
                 )
             }
         }
