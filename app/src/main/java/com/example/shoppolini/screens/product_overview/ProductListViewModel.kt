@@ -21,7 +21,7 @@ class ProductListViewModel : ViewModel() {
     }
 
 
-    fun loadProducts() {
+    private fun loadProducts() {
         viewModelScope.launch {
             _products.value = ProductRepository.getProducts()
         }
@@ -33,7 +33,7 @@ class ProductListViewModel : ViewModel() {
             try {
                 val product = ProductRepository.getProductById(productId)
                 val cartItem = Cart(
-                    id = 0, // or appropriate value
+                    id = 0,
                     title = product.title,
                     productTitle = product.title,
                     price = product.price,
@@ -44,9 +44,9 @@ class ProductListViewModel : ViewModel() {
                     quantity = quantity
                 )
                 CartRepository.addToCart(cartItem)
-                // Optionally, add some UI feedback here
+
             } catch (e: Exception) {
-                // Handle the error appropriately
+                e.printStackTrace()
             }
         }
     }

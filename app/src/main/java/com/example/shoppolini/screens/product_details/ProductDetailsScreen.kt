@@ -13,6 +13,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +43,8 @@ fun ProductDetailsScreen(
         Text(text = "Failed to get product details. Selected product object is NULL!")
         return
     }
+
+
 
     Column(
         modifier = Modifier
@@ -125,6 +129,15 @@ fun ProductDetailsScreen(
                 contentScale = ContentScale.Crop,
                 contentDescription = "Image of ${product.title}"
             )
+            IconButton(
+                onClick = { viewModel.addToCart(product) },
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(16.dp)
+            ) {
+                Icon(tint = Color.White,imageVector = Icons.Default.ShoppingCart, contentDescription = "Add to Cart")
+            }
+
         }
     }
 }

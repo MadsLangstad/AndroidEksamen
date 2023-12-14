@@ -38,7 +38,7 @@ object ProductRepository {
             AppDatabase::class.java,
             name = "appDatabase"
         ).fallbackToDestructiveMigration()
-            .build();
+            .build()
     }
 
     suspend fun getProducts(): List<Product> {
@@ -46,21 +46,25 @@ object ProductRepository {
         /**
         var list: List<Product> = listOf(Product(1, "Hårføner", 123.0, "Føn håret ditt", "Hårpleie", ""))
         return list
+
+         this works on real phone
          **/
-        try {
+
+
+        return try {
             val response = _apiService.getProducts()
 
             if (response.isSuccessful) {
                 val product = response.body() ?: emptyList()
                 _appDatabase.productDao().insertProducts(product)
 
-                return _appDatabase.productDao().getProducts()
+                _appDatabase.productDao().getProducts()
             } else {
                 throw Exception("Failed to fetch astronauts")
             }
         } catch (e: Exception) {
             Log.d("ProductRepository", "Failed to fetch products, ExceptionMessage: ${e.message}")
-            return _appDatabase.productDao().getProducts()
+            _appDatabase.productDao().getProducts()
         }
 
     }

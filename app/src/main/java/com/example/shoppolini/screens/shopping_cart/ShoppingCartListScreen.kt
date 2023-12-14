@@ -22,7 +22,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.shoppolini.data.Cart
-import com.example.shoppolini.data.Product
 
 
 @Composable
@@ -31,6 +30,7 @@ fun ShoppingCartListScreen(
     navController: NavController
 ) {
     val cartItems by viewModel.cartItems.collectAsState(initial = emptyList())
+    val canCompletePurchase = cartItems.isNotEmpty()
     val totalPrice by viewModel.totalPrice.collectAsState(initial = 0.0)
 
     Column(
@@ -59,7 +59,12 @@ fun ShoppingCartListScreen(
         )
 
         Button(
-            onClick = { viewModel.completePurchase() },
+            onClick = {
+                if(canCompletePurchase) {
+                    viewModel.completePurchase()
+                }
+            },
+            enabled = canCompletePurchase,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)

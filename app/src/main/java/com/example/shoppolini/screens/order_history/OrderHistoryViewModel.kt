@@ -24,7 +24,7 @@ class OrderHistoryViewModel : ViewModel() {
         loadOrderHistory()
     }
 
-    fun loadOrderHistory() {
+    private fun loadOrderHistory() {
         viewModelScope.launch {
             OrderRepository.getAllOrders().collect { orderList ->
                 _orders.value = orderList

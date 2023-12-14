@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -48,14 +47,6 @@ fun ProductListScreen(
                 text = "Products",
                 style = MaterialTheme.typography.titleLarge
             )
-            IconButton(
-                onClick = { viewModel.loadProducts() }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Refresh,
-                    contentDescription = "Refresh Products"
-                )
-            }
         }
 
         Divider()
