@@ -28,7 +28,7 @@ class ProductListViewModel : ViewModel() {
     }
 
 
-    fun onBuyProduct(productId: Int, quantity: Int, title: String) {
+    fun onBuyProduct(productId: Int, quantity: Int) {
         viewModelScope.launch {
             try {
                 val product = ProductRepository.getProductById(productId)
