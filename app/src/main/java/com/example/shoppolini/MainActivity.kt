@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -54,6 +55,7 @@ class MainActivity : ComponentActivity() {
     private val _productDetailsViewModel: ProductDetailsViewModel by viewModels()
     private val _shoppingCartListViewModel: ShoppingCartListViewModel by viewModels()
     private val _orderHistoryViewModel: OrderHistoryViewModel by viewModels()
+    private lateinit var navController: NavHostController
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +67,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ShoppoliniTheme {
-                val navController = rememberNavController()
+                navController = rememberNavController()
 
                 Scaffold(
                     topBar = {
@@ -125,6 +127,15 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (navController.currentBackStackEntry?.destination?.route != "productListScreen") {
+            navController.popBackStack("productListScreen", false)
+        } else {
+            super.onBackPressed()
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -158,13 +169,12 @@ fun MyAppBar(
     )
 }
 
-
 @Composable
 fun CartIconBadge(
     viewModel: ShoppingCartListViewModel,
     onCartClick: () -> Unit
 ) {
-    val cartProducts by viewModel.cartItems.collectAsState()
+    val cartProducts by viewModel.cartItems.collectAsState(initial = emptyList())
     IconButton(onClick = { onCartClick() }) {
         Box(contentAlignment = Alignment.TopEnd) {
             Icon(

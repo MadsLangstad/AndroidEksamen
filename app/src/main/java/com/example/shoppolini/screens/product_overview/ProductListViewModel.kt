@@ -28,10 +28,21 @@ class ProductListViewModel : ViewModel() {
     }
 
 
-    fun onBuyProduct(productId: Int, quantity: Int, productTitle: String) {
+    fun onBuyProduct(productId: Int, quantity: Int, title: String) {
         viewModelScope.launch {
             try {
-                val cartItem = Cart(productId = productId, quantity = quantity, productTitle = productTitle)
+                val product = ProductRepository.getProductById(productId)
+                val cartItem = Cart(
+                    id = 0, // or appropriate value
+                    title = product.title,
+                    productTitle = product.title,
+                    price = product.price,
+                    description = product.description,
+                    category = product.category,
+                    image = product.image,
+                    productId = productId,
+                    quantity = quantity
+                )
                 CartRepository.addToCart(cartItem)
                 // Optionally, add some UI feedback here
             } catch (e: Exception) {
@@ -39,4 +50,5 @@ class ProductListViewModel : ViewModel() {
             }
         }
     }
+
 }

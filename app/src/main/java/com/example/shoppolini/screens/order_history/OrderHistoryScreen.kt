@@ -6,11 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
@@ -35,7 +31,6 @@ fun OrderHistoryScreen(
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp)
     ) {
-        // Row for the title and the refresh button
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -45,12 +40,9 @@ fun OrderHistoryScreen(
                 text = "Order History",
                 style = MaterialTheme.typography.titleLarge
             )
-            IconButton(onClick = { viewModel.loadOrderHistory() }) {
-                Icon(imageVector = Icons.Default.Refresh, contentDescription = "Refresh")
-            }
         }
 
-        Spacer(modifier = Modifier.height(16.dp)) // Space after the title row
+        Spacer(modifier = Modifier.height(16.dp))
 
         Divider()
 

@@ -1,17 +1,18 @@
 package com.example.shoppolini.screens.shopping_cart
+import android.util.Log
+import com.example.shoppolini.data.CartRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shoppolini.data.Cart
-import com.example.shoppolini.data.CartRepository
 import com.example.shoppolini.data.Order
 import com.example.shoppolini.data.OrderLineItem
 import com.example.shoppolini.data.OrderRepository
 import com.example.shoppolini.data.Product
 import com.example.shoppolini.data.ProductRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 class ShoppingCartListViewModel : ViewModel() {
 
     private val _cartItems = MutableStateFlow<List<Pair<Product, Int>>>(emptyList())
-    val cartItems: StateFlow<List<Pair<Product, Int>>> = _cartItems.asStateFlow()
+    val cartItems: Flow<List<Cart>> = CartRepository.getCartItems()
 
 
     val totalPrice: StateFlow<Double> = _cartItems.map { list ->
@@ -53,7 +54,6 @@ class ShoppingCartListViewModel : ViewModel() {
         }
     }
 
-
     private suspend fun convertCartListToProductList(cartList: List<Cart>): List<Pair<Product, Int>> {
         val productList = mutableListOf<Pair<Product, Int>>()
         cartList.forEach { cartItem ->
@@ -66,13 +66,15 @@ class ShoppingCartListViewModel : ViewModel() {
     fun onDeleteProduct(cartItemId: Int) {
         viewModelScope.launch {
             try {
+                Log.d("ShoppingCartListVM", "Attempting to delete cart item: $cartItemId")
                 CartRepository.deleteFromCart(cartItemId)
+                loadCartItems() // Reload cart items
+                Log.d("ShoppingCartListVM", "Cart item deleted and cart reloaded")
             } catch (e: Exception) {
-
+                Log.e("ShoppingCartListVM", "Error deleting cart product: ${e.message}")
             }
         }
     }
-
 
     fun completePurchase() {
         viewModelScope.launch {
@@ -104,4 +106,5 @@ class ShoppingCartListViewModel : ViewModel() {
             }
         }
     }
+
 }

@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.shoppolini.data.Cart
 import com.example.shoppolini.data.Product
 
 
@@ -30,15 +30,14 @@ fun ShoppingCartListScreen(
     viewModel: ShoppingCartListViewModel = viewModel(),
     navController: NavController
 ) {
-    val cartItems by viewModel.cartItems.collectAsState()
-    val totalPrice by viewModel.totalPrice.collectAsState()
+    val cartItems by viewModel.cartItems.collectAsState(initial = emptyList())
+    val totalPrice by viewModel.totalPrice.collectAsState(initial = 0.0)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Row for the title and the refresh button
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -48,9 +47,6 @@ fun ShoppingCartListScreen(
                 text = "Shopping Cart",
                 style = MaterialTheme.typography.titleLarge
             )
-            IconButton(onClick = { viewModel.refreshCartItems() }) {
-                Icon(imageVector = Icons.Default.Refresh, contentDescription = "Refresh")
-            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -74,13 +70,14 @@ fun ShoppingCartListScreen(
         Divider()
 
         LazyColumn {
-            items(cartItems) { (product, quantity) ->
+            items(cartItems) { cartItem ->
                 CartProductItem(
-                    product = product,
-                    quantity = quantity,
+                    cartItem = cartItem,
+                    onDeleteClick = { viewModel.onDeleteProduct(cartItem.id) },
                     onProductClick = { productId ->
-                    navController.navigate("productDetailsScreen/$productId")
-                })
+                        navController.navigate("productDetailsScreen/${cartItem.productId}")
+                    }
+                )
             }
         }
     }
@@ -89,10 +86,9 @@ fun ShoppingCartListScreen(
 
 @Composable
 fun CartProductItem(
-    product: Product,
-    quantity: Int,
-    onProductClick: (Int) -> Unit,
-    viewModel: ShoppingCartListViewModel = viewModel()
+    cartItem: Cart,
+    onDeleteClick: () -> Unit,
+    onProductClick: (Int) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -100,7 +96,7 @@ fun CartProductItem(
             .padding(horizontal = 12.dp, vertical = 8.dp)
             .shadow(elevation = 4.dp, shape = RoundedCornerShape(10))
             .background(color = Color.White)
-            .clickable { onProductClick(product.id) },
+            .clickable { onProductClick(cartItem.productId) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Product Image
@@ -108,9 +104,9 @@ fun CartProductItem(
             modifier = Modifier
                 .size(108.dp, 108.dp)
                 .background(color = Color.Gray),
-            model = product.image,
+            model = cartItem.image,
             contentScale = ContentScale.Crop,
-            contentDescription = "Image of ${product.title}"
+            contentDescription = "Image of ${cartItem.title}"
         )
         // Product Details
         Column(
@@ -121,39 +117,27 @@ fun CartProductItem(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = product.title,
+                text = cartItem.title,
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Price: ${product.price}",
+                text = "Price: ${cartItem.price}",
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.Gray
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Quantity: $quantity",
+                text = "Quantity: ${cartItem.quantity}", // Access quantity directly from cartItem
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.Gray
             )
         }
         // Remove Button
-        Column(
-            modifier = Modifier.align(Alignment.Bottom),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            IconButton(
-                onClick = {
-                    viewModel.onDeleteProduct(product.id)
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Delete, // Replace with an appropriate icon
-                    contentDescription = "Remove"
-                )
-            }
+        IconButton(onClick = onDeleteClick) {
+            Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove")
         }
     }
 }

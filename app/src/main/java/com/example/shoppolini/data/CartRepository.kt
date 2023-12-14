@@ -42,11 +42,12 @@ object CartRepository {
     }
 
     // Delete a product from the cart
-    suspend fun deleteFromCart(productId: Int) {
+    suspend fun deleteFromCart(cartItemId: Int) {
         try {
-            _appDatabase.cartDao().deleteFromCart(productId)
+            _appDatabase.cartDao().deleteFromCart(cartItemId)
         } catch (e: Exception) {
             Log.e("CartRepository", "Error deleting from cart: ${e.message}")
+            throw e
         }
     }
 

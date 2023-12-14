@@ -130,7 +130,8 @@ fun ProductItem(
         ) {
             IconButton(
                 onClick = {
-                    viewModel.onBuyProduct(product.id, 1, product.title)
+                    viewModel.onBuyProduct(product.id, 1, product.title
+                    )
                 }
             ) {
                 Icon(
