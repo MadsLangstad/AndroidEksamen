@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.shoppolini.data.Order
 import com.example.shoppolini.data.OrderLineItem
 import com.example.shoppolini.data.OrderRepository
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,8 +26,9 @@ class OrderHistoryViewModel : ViewModel() {
 
     fun loadOrderHistory() {
         viewModelScope.launch {
-            val orderList = OrderRepository.getAllOrders()
-            _orders.value = orderList
+            OrderRepository.getAllOrders().collect { orderList ->
+                _orders.value = orderList
+            }
         }
     }
 }

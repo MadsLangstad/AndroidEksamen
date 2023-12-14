@@ -1,28 +1,4 @@
-GENERAL:
-    - Ensure that all network calls and potentially failing operations are surrounded with try-catch blocks to handle exceptions gracefully
-    - Add a loading spinner while fetching data from the network
-    - Add a message if there is an error
-    - Add a back button action to improve user navigation
-
-OrderHistoryScreen:
-    - Handle exceptions in fetchOrders methods
-    - Add a loading spinner while fetching orders
-    - Add a message if there are no orders
-    - Add a message if there is an error
-
-ProductDetailsScreen:
-    - Add a back button action to improve user navigation
-    - Add a loading spinner while fetching product details
-    - Add a message if there is an error
-
-ProductListScreen:
-    -  Implement error handling and loading states for a better user interface
-
-ShoppingCartListScreen:
-    - Add functionality to modify the quantity or remove items from the cart
-
-RetrofitInstance & ProductRepository:
-    - Handle network exceptions and errors more robustly
-
-MainActivity:
-    - Consider using NavGraphBuilder for a more scalable approach to navigation
+FIX
+    when removing a product from cart , if theres more than one of the same products in the cart, it removes all of them
+    instead of just one.
+ 

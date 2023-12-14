@@ -1,6 +1,7 @@
 package com.example.shoppolini.screens.shopping_cart
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,15 +20,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.shoppolini.data.Product
 
 
 @Composable
 fun ShoppingCartListScreen(
-    viewModel: ShoppingCartListViewModel = viewModel()
+    viewModel: ShoppingCartListViewModel = viewModel(),
+    navController: NavController
 ) {
     val cartItems by viewModel.cartItems.collectAsState()
+    val totalPrice by viewModel.totalPrice.collectAsState()
 
     Column(
         modifier = Modifier
@@ -49,7 +53,14 @@ fun ShoppingCartListScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp)) // Space after the title row
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "Total: $$totalPrice",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+        )
 
         Button(
             onClick = { viewModel.completePurchase() },
@@ -64,7 +75,12 @@ fun ShoppingCartListScreen(
 
         LazyColumn {
             items(cartItems) { (product, quantity) ->
-                CartProductItem(product = product, quantity = quantity)
+                CartProductItem(
+                    product = product,
+                    quantity = quantity,
+                    onProductClick = { productId ->
+                    navController.navigate("productDetailsScreen/$productId")
+                })
             }
         }
     }
@@ -75,6 +91,7 @@ fun ShoppingCartListScreen(
 fun CartProductItem(
     product: Product,
     quantity: Int,
+    onProductClick: (Int) -> Unit,
     viewModel: ShoppingCartListViewModel = viewModel()
 ) {
     Row(
@@ -82,7 +99,8 @@ fun CartProductItem(
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 8.dp)
             .shadow(elevation = 4.dp, shape = RoundedCornerShape(10))
-            .background(color = Color.White),
+            .background(color = Color.White)
+            .clickable { onProductClick(product.id) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Product Image

@@ -4,12 +4,13 @@ import android.content.Context
 import android.util.Log
 import androidx.room.Room
 import com.example.shoppolini.data.room.AppDatabase
+import kotlinx.coroutines.flow.Flow
 
 object OrderRepository {
 
     private lateinit var _appDatabase: AppDatabase
 
-    // Initialize the AppDatabase instance
+
     fun initiateAppDatabase(context: Context) {
         if (!::_appDatabase.isInitialized) {
             _appDatabase = Room.databaseBuilder(
@@ -25,7 +26,7 @@ object OrderRepository {
         _appDatabase.orderLineItemDao().insertOrderLineItem(orderLineItem)
     }
 
-    // Add an order to the database
+
     suspend fun insertOrder(order: Order) {
         try {
             _appDatabase.orderDao().insertOrder(order)
@@ -34,17 +35,17 @@ object OrderRepository {
         }
     }
 
-    // Get all the orders
-    suspend fun getAllOrders(): List<Order> {
+
+    fun getAllOrders(): Flow<List<Order>> {
         return try {
             _appDatabase.orderDao().getAllOrders()
         } catch (e: Exception) {
             Log.e("OrderRepository", "Error fetching orders: ${e.message}")
-            emptyList()
+            throw e
         }
     }
 
-    // Get line items for a specific order
+
     suspend fun getOrderLineItems(orderId: Int): List<OrderLineItem> {
         return try {
             _appDatabase.orderLineItemDao().getOrderLineItemsByOrderId(orderId)

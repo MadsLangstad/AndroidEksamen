@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.shoppolini.data.Cart
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CartDao {
@@ -12,7 +13,7 @@ interface CartDao {
     suspend fun addToCart(cartItem: Cart)
 
     @Query("SELECT * FROM cart")
-    suspend fun getCartItems(): List<Cart>
+    fun getCartItems(): Flow<List<Cart>>
 
     @Query("DELETE FROM cart")
     suspend fun clearCart()

@@ -66,8 +66,7 @@ fun OrderHistoryScreen(
 @Composable
 fun OrderItem(
     order: Order,
-    lineItemsFlow: Flow<List<OrderLineItem>>,
-    viewModel: OrderHistoryViewModel = viewModel()
+    lineItemsFlow: Flow<List<OrderLineItem>>
 ) {
 
     val lineItems by lineItemsFlow.collectAsState(initial = emptyList())

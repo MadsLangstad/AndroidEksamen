@@ -1,7 +1,7 @@
 package com.example.shoppolini
 
+import com.example.shoppolini.screens.shopping_cart.ShoppingCartListViewModel
 import android.os.Bundle
-
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
-
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -48,7 +47,6 @@ import com.example.shoppolini.screens.product_details.ProductDetailsViewModel
 import com.example.shoppolini.screens.product_overview.ProductListScreen
 import com.example.shoppolini.screens.product_overview.ProductListViewModel
 import com.example.shoppolini.screens.shopping_cart.ShoppingCartListScreen
-import com.example.shoppolini.screens.shopping_cart.ShoppingCartListViewModel
 import com.example.shoppolini.ui.theme.ShoppoliniTheme
 
 class MainActivity : ComponentActivity() {
@@ -61,7 +59,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initializing the AppDatabase instances
         ProductRepository.initiateAppDatabase(applicationContext)
         CartRepository.initiateAppDatabase(applicationContext)
         OrderRepository.initiateAppDatabase(applicationContext)
@@ -89,7 +86,6 @@ class MainActivity : ComponentActivity() {
                         composable(route = "productListScreen") {
                             ProductListScreen(
                                 viewModel = _productListViewModel,
-                                navController = navController,
                                 onProductClick = { productId ->
                                     navController.navigate("productDetailsScreen/$productId")
                                 }
@@ -115,7 +111,10 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(route = "shoppingCartListScreen") {
-                            ShoppingCartListScreen(viewModel = _shoppingCartListViewModel)
+                            ShoppingCartListScreen(
+                                viewModel = _shoppingCartListViewModel,
+                                navController = navController
+                            )
                         }
 
                         composable(route = "orderHistoryScreen") {
@@ -158,6 +157,7 @@ fun MyAppBar(
         }
     )
 }
+
 
 @Composable
 fun CartIconBadge(

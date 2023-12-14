@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.room.Room
 import com.example.shoppolini.data.room.AppDatabase
+import kotlinx.coroutines.flow.Flow
 
 object CartRepository {
 
@@ -31,12 +32,12 @@ object CartRepository {
     }
 
     // Get all the cart items
-    suspend fun getCartItems(): List<Cart> {
+    fun getCartItems(): Flow<List<Cart>> {
         return try {
             _appDatabase.cartDao().getCartItems()
         } catch (e: Exception) {
-            Log.e("CartRepository", "Error fetching cart items: ${e.message}")
-            emptyList()
+            Log.e("CartRepository", "Error getting cart items: ${e.message}")
+            throw e
         }
     }
 

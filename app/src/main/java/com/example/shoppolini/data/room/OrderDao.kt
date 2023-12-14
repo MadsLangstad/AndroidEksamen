@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.shoppolini.data.Order
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface OrderDao {
@@ -12,5 +13,5 @@ interface OrderDao {
     suspend fun insertOrder(order: Order)
 
     @Query("SELECT * FROM orders")
-    suspend fun getAllOrders(): List<Order>
+    fun getAllOrders(): Flow<List<Order>>
 }
