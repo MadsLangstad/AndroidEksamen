@@ -14,7 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -45,12 +44,12 @@ fun ProductDetailsScreen(
     }
 
 
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = TransparentBlack),
     ) {
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -58,6 +57,7 @@ fun ProductDetailsScreen(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
+
             IconButton(
                 onClick = { onBackButtonClick() }
             ) {
@@ -66,6 +66,7 @@ fun ProductDetailsScreen(
                     contentDescription = "Refresh products"
                 )
             }
+
             Text(
                 modifier = Modifier.padding(8.dp),
                 text = "Product Details",
@@ -80,7 +81,9 @@ fun ProductDetailsScreen(
                 .padding(horizontal = 24.dp)
                 .verticalScroll(state = rememberScrollState()),
         ) {
+
             Spacer(modifier = Modifier.height(32.dp))
+
             Text(
                 text = product.title,
                 style = MaterialTheme.typography.headlineSmall,
@@ -129,6 +132,7 @@ fun ProductDetailsScreen(
                 contentScale = ContentScale.Crop,
                 contentDescription = "Image of ${product.title}"
             )
+
             IconButton(
                 onClick = { viewModel.addToCart(product) },
                 modifier = Modifier
@@ -137,7 +141,6 @@ fun ProductDetailsScreen(
             ) {
                 Icon(tint = Color.White,imageVector = Icons.Default.ShoppingCart, contentDescription = "Add to Cart")
             }
-
         }
     }
 }

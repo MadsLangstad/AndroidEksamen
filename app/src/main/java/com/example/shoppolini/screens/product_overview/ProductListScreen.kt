@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,10 +30,14 @@ import coil.compose.AsyncImage
 
 @Composable
 fun ProductListScreen(
+
     viewModel: ProductListViewModel = viewModel(),
     onProductClick: (productId: Int) -> Unit = {}
 ) {
     val products = viewModel.products.collectAsState()
+    val isLoading = viewModel.isLoading.collectAsState()
+
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -51,16 +56,27 @@ fun ProductListScreen(
 
         Divider()
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            items(products.value) { product ->
-                ProductItem(
-                    product = product,
-                    onClick = { onProductClick(product.id) }
-                )
+        if (isLoading.value) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+                items(products.value) { product ->
+                    ProductItem(
+                        product = product,
+                        onClick = { onProductClick(product.id) }
+                    )
+                }
             }
         }
     }

@@ -38,13 +38,6 @@ class ShoppingCartListViewModel : ViewModel() {
     }
 
 
-    fun refreshCartItems() {
-        viewModelScope.launch {
-            loadCartItems()
-        }
-    }
-
-
     private fun loadCartItems() {
         viewModelScope.launch {
             CartRepository.getCartItems().collect { cartList ->

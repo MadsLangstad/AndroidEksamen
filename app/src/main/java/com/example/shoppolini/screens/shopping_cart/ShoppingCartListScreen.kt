@@ -79,7 +79,7 @@ fun ShoppingCartListScreen(
                 CartProductItem(
                     cartItem = cartItem,
                     onDeleteClick = { viewModel.onDeleteProduct(cartItem.id) },
-                    onProductClick = { productId ->
+                    onProductClick = {
                         navController.navigate("productDetailsScreen/${cartItem.productId}")
                     }
                 )

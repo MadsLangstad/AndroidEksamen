@@ -16,6 +16,10 @@ class ProductListViewModel : ViewModel() {
     val products = _products.asStateFlow()
 
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
+
     init {
         loadProducts()
     }
@@ -23,7 +27,12 @@ class ProductListViewModel : ViewModel() {
 
     private fun loadProducts() {
         viewModelScope.launch {
-            _products.value = ProductRepository.getProducts()
+            _isLoading.value = true
+            try {
+                _products.value = ProductRepository.getProducts()
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
