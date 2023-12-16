@@ -1,5 +1,8 @@
 package com.example.shoppolini.screens.shopping_cart
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import com.example.shoppolini.data.CartRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -83,7 +86,7 @@ class ShoppingCartListViewModel : ViewModel() {
         }
     }
 
-    fun completePurchase() {
+    fun completePurchase(context: Context) {
         viewModelScope.launch {
             val totalOrderPrice = _cartItems.value.sumOf { (product, quantity) -> product.price * quantity }
             val order = Order(
@@ -104,12 +107,11 @@ class ShoppingCartListViewModel : ViewModel() {
                     )
                     OrderRepository.insertOrderLineItem(orderLineItem)
                 }
-
                 CartRepository.clearCart()
-
                 _cartItems.value = emptyList()
+                Toast.makeText(context, "Order completed successfully", Toast.LENGTH_LONG).show()
             } catch (e: Exception) {
-                // Handle
+                Toast.makeText(context, "Error completing the order", Toast.LENGTH_LONG).show()
             }
         }
     }

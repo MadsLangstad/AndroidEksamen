@@ -21,10 +21,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shoppolini.data.Order
 import com.example.shoppolini.data.OrderLineItem
 import kotlinx.coroutines.flow.Flow
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Icon
+
 
 @Composable
 fun OrderHistoryScreen(
-    viewModel: OrderHistoryViewModel = viewModel()
+    viewModel: OrderHistoryViewModel = viewModel(),
+    onDeleteAllOrdersClick: () -> Unit // Add this if you have functionality to delete all orders
 ) {
     val orders by viewModel.orders.collectAsState()
 
@@ -40,6 +46,9 @@ fun OrderHistoryScreen(
                 text = "Order History",
                 style = MaterialTheme.typography.titleLarge
             )
+            IconButton(onClick = { onDeleteAllOrdersClick() }) {
+                Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete All Orders")
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))

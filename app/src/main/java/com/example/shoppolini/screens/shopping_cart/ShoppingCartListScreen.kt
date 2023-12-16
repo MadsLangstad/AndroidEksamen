@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,8 @@ fun ShoppingCartListScreen(
     val cartItems by viewModel.cartItems.collectAsState(initial = emptyList())
     val canCompletePurchase = cartItems.isNotEmpty()
     val totalPrice by viewModel.totalPrice.collectAsState(initial = 0.0)
+
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -63,7 +66,7 @@ fun ShoppingCartListScreen(
         Button(
             onClick = {
                 if(canCompletePurchase) {
-                    viewModel.completePurchase()
+                    viewModel.completePurchase(context)
                 }
             },
             enabled = canCompletePurchase,

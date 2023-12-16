@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.example.shoppolini.data.Product
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.shoppolini.ui.theme.TransparentBlack
 
 @Composable
 fun ProductListScreen(
@@ -40,9 +41,10 @@ fun ProductListScreen(
 
 
 
-
     Column(
         modifier = Modifier.fillMaxSize(),
+            // Styling
+            //.background(color = TransparentBlack),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -52,6 +54,8 @@ fun ProductListScreen(
         ) {
             Text(
                 modifier = Modifier.padding(8.dp),
+                // Styling
+                //color = Color.White,
                 text = "Products",
                 style = MaterialTheme.typography.titleLarge
             )
@@ -136,8 +140,9 @@ fun ProductItem(
             )
         }
         Column(
-                modifier = Modifier.align(Alignment.Bottom),
-        horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier
+                    .align(Alignment.Bottom),
+                horizontalAlignment = Alignment.CenterHorizontally
         ) {
             IconButton(
                 onClick = {

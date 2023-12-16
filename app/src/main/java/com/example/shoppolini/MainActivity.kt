@@ -49,6 +49,7 @@ import com.example.shoppolini.screens.product_overview.ProductListScreen
 import com.example.shoppolini.screens.product_overview.ProductListViewModel
 import com.example.shoppolini.screens.shopping_cart.ShoppingCartListScreen
 import com.example.shoppolini.ui.theme.ShoppoliniTheme
+import com.example.shoppolini.ui.theme.TransparentBlack
 
 class MainActivity : ComponentActivity() {
     private val _productListViewModel: ProductListViewModel by viewModels()
@@ -76,7 +77,10 @@ class MainActivity : ComponentActivity() {
                             onLogoClick = { navController.navigate("productListScreen") },
                             onOrderHistoryClick = { navController.navigate("orderHistoryScreen") },
                             onCartClick = { navController.navigate("shoppingCartListScreen") },
-                            viewModel = _shoppingCartListViewModel
+                            viewModel = _shoppingCartListViewModel,
+                            onDeleteAllOrdersClick = {
+                                _orderHistoryViewModel.deleteAllOrders()
+                            }
                         )
                     }
                 ) { innerPadding ->
@@ -120,7 +124,12 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(route = "orderHistoryScreen") {
-                            OrderHistoryScreen(viewModel = _orderHistoryViewModel)
+                            OrderHistoryScreen(
+                                viewModel = _orderHistoryViewModel,
+                                onDeleteAllOrdersClick = {
+                                    _orderHistoryViewModel.deleteAllOrders()
+                                }
+                            )
                         }
                     }
                 }
@@ -146,18 +155,22 @@ fun MyAppBar(
     onLogoClick: () -> Unit,
     onCartClick: () -> Unit,
     onOrderHistoryClick: () -> Unit,
+    onDeleteAllOrdersClick: () -> Unit = {},
     viewModel: ShoppingCartListViewModel
 ) {
     TopAppBar(
         title = {
-            // Need FIX!
             IconButton(
                 modifier = Modifier.width(100.dp).shadow(100.dp, CircleShape),
                 onClick = { onLogoClick() }) {
                 Text(text = "")
             }
-            Spacer(Modifier.width(8.dp)) // Add spacing between logo and title
-            Text(text = title) },
+            Spacer(Modifier.width(8.dp))
+            Text(
+                text = title,
+                // Styling
+                //color = Color.White,
+            ) },
         actions = {
             CartIconBadge(viewModel = viewModel, onCartClick = onCartClick)
             IconButton(onClick = { onOrderHistoryClick() }) {

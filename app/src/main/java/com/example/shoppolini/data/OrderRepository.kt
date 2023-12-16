@@ -54,4 +54,8 @@ object OrderRepository {
             emptyList()
         }
     }
+
+    suspend fun deleteAllOrders() {
+        _appDatabase.orderDao().deleteAllOrders()
+    }
 }

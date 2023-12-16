@@ -20,6 +20,13 @@ class OrderHistoryViewModel : ViewModel() {
         emit(OrderRepository.getOrderLineItems(orderId))
     }
 
+    fun deleteAllOrders() {
+        viewModelScope.launch {
+            OrderRepository.deleteAllOrders()
+            loadOrderHistory()
+        }
+    }
+
     init {
         loadOrderHistory()
     }

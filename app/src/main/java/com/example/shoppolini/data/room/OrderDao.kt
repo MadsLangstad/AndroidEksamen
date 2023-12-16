@@ -14,4 +14,7 @@ interface OrderDao {
 
     @Query("SELECT * FROM orders")
     fun getAllOrders(): Flow<List<Order>>
+
+    @Query("DELETE FROM orders")
+    suspend fun deleteAllOrders()
 }
