@@ -30,22 +30,25 @@ import androidx.compose.material3.Icon
 @Composable
 fun OrderHistoryScreen(
     viewModel: OrderHistoryViewModel = viewModel(),
-    onDeleteAllOrdersClick: () -> Unit // Add this if you have functionality to delete all orders
+    onDeleteAllOrdersClick: () -> Unit
 ) {
     val orders by viewModel.orders.collectAsState()
 
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp)
     ) {
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+
             Text(
                 text = "Order History",
                 style = MaterialTheme.typography.titleLarge
             )
+
             IconButton(onClick = { onDeleteAllOrdersClick() }) {
                 Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete All Orders")
             }
@@ -66,8 +69,10 @@ fun OrderHistoryScreen(
 
 @Composable
 fun OrderItem(
+
     order: Order,
     lineItemsFlow: Flow<List<OrderLineItem>>
+
 ) {
 
     val lineItems by lineItemsFlow.collectAsState(initial = emptyList())
@@ -79,29 +84,36 @@ fun OrderItem(
             .shadow(elevation = 4.dp, shape = RoundedCornerShape(10))
             .background(color = Color.LightGray),
     ) {
+
         Text(
             text = "Order ID: ${order.id}",
             fontWeight = FontWeight.Bold,
             color = Color.Black,
             modifier = Modifier.padding(8.dp)
         )
+
         Text(
             text = "Total Price: ${order.totalPrice}",
             color = Color.Black,
             modifier = Modifier.padding(8.dp)
         )
+
         lineItems.forEach { lineItem ->
+
             Divider()
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+
                 Text(
                     text = "${lineItem.productTitle} x${lineItem.quantity}",
                     modifier = Modifier.weight(1f)
                 )
+
                 Text(
                     text = "Price: ${lineItem.price}",
                     color = Color.Black

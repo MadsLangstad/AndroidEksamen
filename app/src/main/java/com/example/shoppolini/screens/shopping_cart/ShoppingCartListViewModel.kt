@@ -2,7 +2,6 @@ package com.example.shoppolini.screens.shopping_cart
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import com.example.shoppolini.data.CartRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -50,19 +49,22 @@ class ShoppingCartListViewModel : ViewModel() {
         }
     }
 
+
     fun incrementQuantity(cartItemId: Int) {
         viewModelScope.launch {
             CartRepository.incrementCartItemQuantity(cartItemId)
-            loadCartItems() // Refresh cart items
+            loadCartItems()
         }
     }
+
 
     fun decrementQuantity(cartItemId: Int) {
         viewModelScope.launch {
             CartRepository.decrementCartItemQuantity(cartItemId)
-            loadCartItems() // Refresh cart items
+            loadCartItems()
         }
     }
+
 
     private suspend fun convertCartListToProductList(cartList: List<Cart>): List<Pair<Product, Int>> {
         val productList = mutableListOf<Pair<Product, Int>>()
@@ -73,18 +75,20 @@ class ShoppingCartListViewModel : ViewModel() {
         return productList
     }
 
+
     fun onDeleteProduct(cartItemId: Int) {
         viewModelScope.launch {
             try {
                 Log.d("ShoppingCartListVM", "Attempting to delete cart item: $cartItemId")
                 CartRepository.deleteFromCart(cartItemId)
-                loadCartItems() // Reload cart items
+                loadCartItems()
                 Log.d("ShoppingCartListVM", "Cart item deleted and cart reloaded")
             } catch (e: Exception) {
                 Log.e("ShoppingCartListVM", "Error deleting cart product: ${e.message}")
             }
         }
     }
+
 
     fun completePurchase(context: Context) {
         viewModelScope.launch {
@@ -115,5 +119,4 @@ class ShoppingCartListViewModel : ViewModel() {
             }
         }
     }
-
 }

@@ -31,12 +31,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.shoppolini.ui.theme.TransparentBlack
+import com.example.shoppolini.theme.TransparentBlack
 
 @Composable
 fun ProductDetailsScreen(
+
     viewModel: ProductDetailsViewModel,
     onBackButtonClick: () -> Unit = {}
+
 ) {
     val productState = viewModel.selectedProduct.collectAsState()
 

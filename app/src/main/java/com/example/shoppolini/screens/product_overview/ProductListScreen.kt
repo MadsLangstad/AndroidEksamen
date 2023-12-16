@@ -10,12 +10,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -28,36 +32,55 @@ import androidx.compose.ui.unit.dp
 import com.example.shoppolini.data.Product
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.example.shoppolini.ui.theme.TransparentBlack
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductListScreen(
 
     viewModel: ProductListViewModel = viewModel(),
     onProductClick: (productId: Int) -> Unit = {}
+
 ) {
+
     val products = viewModel.products.collectAsState()
     val isLoading = viewModel.isLoading.collectAsState()
-
+    val searchQuery by viewModel.searchQuery.collectAsState()
 
 
     Column(
         modifier = Modifier.fillMaxSize(),
-            // Styling
-            //.background(color = TransparentBlack),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+
             Text(
                 modifier = Modifier.padding(8.dp),
-                // Styling
-                //color = Color.White,
                 text = "Products",
                 style = MaterialTheme.typography.titleLarge
+            )
+
+            TextField(
+                value = searchQuery,
+                onValueChange = { query -> viewModel.updateSearchQuery(query) },
+                modifier = Modifier
+                    .width(200.dp)
+                    .background(Color.Transparent, shape = RoundedCornerShape(8.dp)),
+                placeholder = { Text("Search for products") },
+                singleLine = true,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color.Black,
+                    cursorColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    disabledLabelColor = Color.Gray,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
             )
         }
 
@@ -96,6 +119,7 @@ fun ProductItem(
     viewModel: ProductListViewModel = viewModel()
 ) {
     val context = LocalContext.current
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -105,6 +129,7 @@ fun ProductItem(
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
+
         AsyncImage(
             modifier = Modifier
                 .size(108.dp, 108.dp)
@@ -113,6 +138,7 @@ fun ProductItem(
             contentScale = ContentScale.Crop,
             contentDescription = "Image of ${product.title}"
         )
+
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -120,19 +146,24 @@ fun ProductItem(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+
             Text(
                 text = product.title,
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
+
             Spacer(modifier = Modifier.height(8.dp))
+
             Text(
                 text = "Price: ${product.price}",
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.Gray
             )
+
             Spacer(modifier = Modifier.height(8.dp))
+
             Text(
                 text = product.description,
                 maxLines = 2,

@@ -114,7 +114,7 @@ fun CartProductItem(
             .clickable { onProductClick(cartItem.productId) },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Product Image
+
         AsyncImage(
             modifier = Modifier
                 .size(108.dp, 108.dp)
@@ -124,14 +124,13 @@ fun CartProductItem(
             contentDescription = "Image of ${cartItem.title}"
         )
 
-        // Product Details
         Column(
             modifier = Modifier
                 .weight(1f)
                 .padding(8.dp),
             horizontalAlignment = Alignment.Start
         ) {
-            // Product Title
+
             Text(
                 text = cartItem.title,
                 fontWeight = FontWeight.SemiBold,
@@ -151,14 +150,13 @@ fun CartProductItem(
             )
         }
 
-        // Icons for Quantity Modification and Delete Button
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.End
         ) {
-            // Quantity Modification Column
+
             Column {
-                // Increase Quantity Icon
+
                 IconButton(onClick = onIncrementClick) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowUp,
@@ -166,7 +164,7 @@ fun CartProductItem(
                         modifier = Modifier.padding(top = 20.dp)
                     )
                 }
-                // Decrease Quantity Icon
+
                 IconButton(onClick = onDecrementClick) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowDown,
@@ -175,7 +173,7 @@ fun CartProductItem(
                     )
                 }
             }
-            // Delete Icon
+
             IconButton(onClick = onDeleteClick) {
                 Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove")
             }

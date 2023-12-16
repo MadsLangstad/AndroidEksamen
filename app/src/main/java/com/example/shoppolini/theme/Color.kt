@@ -1,4 +1,4 @@
-package com.example.shoppolini.ui.theme
+package com.example.shoppolini.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -10,5 +10,4 @@ val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
 
-val RatingYellow = Color(0xFFFDD835)
 val TransparentBlack = Color(0xCF000000)

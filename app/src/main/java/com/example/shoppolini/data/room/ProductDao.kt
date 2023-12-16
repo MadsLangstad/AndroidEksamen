@@ -18,6 +18,9 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProducts(products: List<Product>)
 
+    @Query("SELECT * FROM Products WHERE title LIKE :searchQuery")
+    suspend fun searchProducts(searchQuery: String): List<Product>
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateProduct(product: Product)
 }

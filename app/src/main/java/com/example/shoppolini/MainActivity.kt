@@ -49,7 +49,6 @@ import com.example.shoppolini.screens.product_overview.ProductListScreen
 import com.example.shoppolini.screens.product_overview.ProductListViewModel
 import com.example.shoppolini.screens.shopping_cart.ShoppingCartListScreen
 import com.example.shoppolini.ui.theme.ShoppoliniTheme
-import com.example.shoppolini.ui.theme.TransparentBlack
 
 class MainActivity : ComponentActivity() {
     private val _productListViewModel: ProductListViewModel by viewModels()

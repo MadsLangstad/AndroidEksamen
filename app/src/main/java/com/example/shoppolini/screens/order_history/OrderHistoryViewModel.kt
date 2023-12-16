@@ -13,12 +13,15 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 class OrderHistoryViewModel : ViewModel() {
+
     private val _orders = MutableStateFlow<List<Order>>(emptyList())
     val orders: StateFlow<List<Order>> = _orders.asStateFlow()
+
 
     fun getLineItemsForOrder(orderId: Int): Flow<List<OrderLineItem>> = flow {
         emit(OrderRepository.getOrderLineItems(orderId))
     }
+
 
     fun deleteAllOrders() {
         viewModelScope.launch {
@@ -27,9 +30,11 @@ class OrderHistoryViewModel : ViewModel() {
         }
     }
 
+
     init {
         loadOrderHistory()
     }
+
 
     private fun loadOrderHistory() {
         viewModelScope.launch {
