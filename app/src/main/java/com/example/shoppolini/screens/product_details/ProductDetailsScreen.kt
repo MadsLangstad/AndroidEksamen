@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -24,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -36,6 +39,8 @@ fun ProductDetailsScreen(
     onBackButtonClick: () -> Unit = {}
 ) {
     val productState = viewModel.selectedProduct.collectAsState()
+
+    val context = LocalContext.current
 
     val product = productState.value
     if(product == null) {
@@ -132,14 +137,24 @@ fun ProductDetailsScreen(
                 contentScale = ContentScale.Crop,
                 contentDescription = "Image of ${product.title}"
             )
+                Button(
+                    onClick = { viewModel.addToCart(context, product) },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally),
 
-            IconButton(
-                onClick = { viewModel.addToCart(product) },
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(16.dp)
-            ) {
-                Icon(tint = Color.White,imageVector = Icons.Default.ShoppingCart, contentDescription = "Add to Cart")
+                ) {
+                    Icon(
+                        tint = Color.White,
+                        imageVector = Icons.Default.ShoppingCart,
+                        contentDescription = "Add to Cart"
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Add to Cart",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = Color.White
+                    )
             }
         }
     }

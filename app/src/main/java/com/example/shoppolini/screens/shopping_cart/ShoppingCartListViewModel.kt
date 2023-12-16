@@ -47,6 +47,20 @@ class ShoppingCartListViewModel : ViewModel() {
         }
     }
 
+    fun incrementQuantity(cartItemId: Int) {
+        viewModelScope.launch {
+            CartRepository.incrementCartItemQuantity(cartItemId)
+            loadCartItems() // Refresh cart items
+        }
+    }
+
+    fun decrementQuantity(cartItemId: Int) {
+        viewModelScope.launch {
+            CartRepository.decrementCartItemQuantity(cartItemId)
+            loadCartItems() // Refresh cart items
+        }
+    }
+
     private suspend fun convertCartListToProductList(cartList: List<Cart>): List<Pair<Product, Int>> {
         val productList = mutableListOf<Pair<Product, Int>>()
         cartList.forEach { cartItem ->

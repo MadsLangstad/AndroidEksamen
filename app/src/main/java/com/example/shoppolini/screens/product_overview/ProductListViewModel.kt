@@ -1,5 +1,7 @@
 package com.example.shoppolini.screens.product_overview
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shoppolini.data.Cart
@@ -37,7 +39,7 @@ class ProductListViewModel : ViewModel() {
     }
 
 
-    fun onBuyProduct(productId: Int, quantity: Int) {
+    fun onBuyProduct(context: Context, productId: Int, quantity: Int) {
         viewModelScope.launch {
             try {
                 val existingCartItem = CartRepository.getCartItemByProductId(productId)
@@ -55,9 +57,11 @@ class ProductListViewModel : ViewModel() {
                     quantity = quantity
                 )
                     CartRepository.addToCart(cartItem)
+                    Toast.makeText(context, "Added to cart", Toast.LENGTH_SHORT).show()
                 } else {
                     val cartItem = existingCartItem.copy(quantity = existingCartItem.quantity + quantity)
                     CartRepository.addToCart(cartItem)
+                    Toast.makeText(context, "Increased quantity in cart by 1", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

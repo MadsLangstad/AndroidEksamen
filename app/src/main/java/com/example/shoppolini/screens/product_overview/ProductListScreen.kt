@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,8 @@ fun ProductListScreen(
 ) {
     val products = viewModel.products.collectAsState()
     val isLoading = viewModel.isLoading.collectAsState()
+
+
 
 
     Column(
@@ -88,6 +91,7 @@ fun ProductItem(
     onClick: () -> Unit,
     viewModel: ProductListViewModel = viewModel()
 ) {
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -137,7 +141,7 @@ fun ProductItem(
         ) {
             IconButton(
                 onClick = {
-                    viewModel.onBuyProduct(product.id, 1)
+                    viewModel.onBuyProduct(context, product.id, 1)
                 }
             ) {
                 Icon(

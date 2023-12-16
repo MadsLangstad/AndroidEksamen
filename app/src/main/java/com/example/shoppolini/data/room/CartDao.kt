@@ -18,6 +18,12 @@ interface CartDao {
     @Query("SELECT * FROM cart WHERE productId = :productId LIMIT 1")
     suspend fun getCartItemByProductId(productId: Int): Cart?
 
+    @Query("UPDATE cart SET quantity = quantity + 1 WHERE id = :cartItemId")
+    suspend fun incrementQuantity(cartItemId: Int)
+
+    @Query("UPDATE cart SET quantity = CASE WHEN quantity > 1 THEN quantity - 1 ELSE 1 END WHERE id = :cartItemId")
+    suspend fun decrementQuantity(cartItemId: Int)
+
     @Query("DELETE FROM cart")
     suspend fun clearCart()
 

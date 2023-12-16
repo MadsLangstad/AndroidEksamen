@@ -51,6 +51,15 @@ object CartRepository {
         }
     }
 
+    suspend fun incrementCartItemQuantity(cartItemId: Int) {
+        _appDatabase.cartDao().incrementQuantity(cartItemId)
+    }
+
+    suspend fun decrementCartItemQuantity(cartItemId: Int) {
+        _appDatabase.cartDao().decrementQuantity(cartItemId)
+    }
+
+
     // Delete a product from the cart
     suspend fun deleteFromCart(cartItemId: Int) {
         try {

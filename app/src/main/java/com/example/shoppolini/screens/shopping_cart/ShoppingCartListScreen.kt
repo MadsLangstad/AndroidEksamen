@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -66,8 +68,9 @@ fun ShoppingCartListScreen(
             },
             enabled = canCompletePurchase,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+                .align(Alignment.CenterHorizontally)
+                .padding(10.dp)
+                .padding(5.dp)
         ) {
             Text("Complete Purchase")
         }
@@ -79,6 +82,8 @@ fun ShoppingCartListScreen(
                 CartProductItem(
                     cartItem = cartItem,
                     onDeleteClick = { viewModel.onDeleteProduct(cartItem.id) },
+                    onIncrementClick = { viewModel.incrementQuantity(cartItem.id) },
+                    onDecrementClick = { viewModel.decrementQuantity(cartItem.id) },
                     onProductClick = {
                         navController.navigate("productDetailsScreen/${cartItem.productId}")
                     }
@@ -93,7 +98,9 @@ fun ShoppingCartListScreen(
 fun CartProductItem(
     cartItem: Cart,
     onDeleteClick: () -> Unit,
-    onProductClick: (Int) -> Unit
+    onProductClick: (Int) -> Unit,
+    onIncrementClick: () -> Unit,
+    onDecrementClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -113,14 +120,15 @@ fun CartProductItem(
             contentScale = ContentScale.Crop,
             contentDescription = "Image of ${cartItem.title}"
         )
+
         // Product Details
         Column(
             modifier = Modifier
                 .weight(1f)
                 .padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            horizontalAlignment = Alignment.Start
         ) {
+            // Product Title
             Text(
                 text = cartItem.title,
                 fontWeight = FontWeight.SemiBold,
@@ -133,16 +141,43 @@ fun CartProductItem(
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.Gray
             )
-            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Quantity: ${cartItem.quantity}", // Access quantity directly from cartItem
+                text = "Quantity: ${cartItem.quantity}",
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.Gray
             )
         }
-        // Remove Button
-        IconButton(onClick = onDeleteClick) {
-            Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove")
+
+        // Icons for Quantity Modification and Delete Button
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
+        ) {
+            // Quantity Modification Column
+            Column {
+                // Increase Quantity Icon
+                IconButton(onClick = onIncrementClick) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowUp,
+                        contentDescription = "Increase Quantity",
+                        modifier = Modifier.padding(top = 20.dp)
+                    )
+                }
+                // Decrease Quantity Icon
+                IconButton(onClick = onDecrementClick) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowDown,
+                        contentDescription = "Decrease Quantity",
+                        modifier = Modifier.padding(bottom = 0.dp)
+                    )
+                }
+            }
+            // Delete Icon
+            IconButton(onClick = onDeleteClick) {
+                Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove")
+            }
         }
     }
 }
+
+
