@@ -40,8 +40,10 @@ class ProductListViewModel : ViewModel() {
     fun onBuyProduct(productId: Int, quantity: Int) {
         viewModelScope.launch {
             try {
-                val product = ProductRepository.getProductById(productId)
-                val cartItem = Cart(
+                val existingCartItem = CartRepository.getCartItemByProductId(productId)
+                if (existingCartItem == null) {
+                    val product = ProductRepository.getProductById(productId)
+                    val cartItem = Cart(
                     id = 0,
                     title = product.title,
                     productTitle = product.title,
@@ -52,12 +54,14 @@ class ProductListViewModel : ViewModel() {
                     productId = productId,
                     quantity = quantity
                 )
-                CartRepository.addToCart(cartItem)
-
+                    CartRepository.addToCart(cartItem)
+                } else {
+                    val cartItem = existingCartItem.copy(quantity = existingCartItem.quantity + quantity)
+                    CartRepository.addToCart(cartItem)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
-
 }

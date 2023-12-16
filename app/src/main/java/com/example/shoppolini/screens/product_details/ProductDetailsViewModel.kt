@@ -25,17 +25,25 @@ class ProductDetailsViewModel : ViewModel() {
 
     fun addToCart(product: Product, quantity: Int = 1) {
         viewModelScope.launch {
-            CartRepository.addToCart(Cart(
-                id = 0,
-                title = product.title,
-                productTitle = product.title,
-                price = product.price,
-                description = product.description,
-                category = product.category,
-                image = product.image,
-                productId = product.id,
-                quantity = quantity
-            ))
+            val existingCartItem = CartRepository.getCartItemByProductId(product.id)
+            if (existingCartItem == null) {
+                CartRepository.addToCart(
+                    Cart(
+                        id = 0,
+                        title = product.title,
+                        productTitle = product.title,
+                        price = product.price,
+                        description = product.description,
+                        category = product.category,
+                        image = product.image,
+                        productId = product.id,
+                        quantity = quantity
+                    )
+                )
+            } else {
+                val cartItem = existingCartItem.copy(quantity = existingCartItem.quantity + quantity)
+                CartRepository.addToCart(cartItem)
+            }
         }
     }
 }

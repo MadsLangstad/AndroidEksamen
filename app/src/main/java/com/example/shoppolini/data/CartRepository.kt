@@ -41,6 +41,16 @@ object CartRepository {
         }
     }
 
+    // Get a cart item by product id
+    suspend fun getCartItemByProductId(productId: Int): Cart? {
+        return try {
+            _appDatabase.cartDao().getCartItemByProductId(productId)
+        } catch (e: Exception) {
+            Log.e("CartRepository", "Error checking cart item: ${e.message}")
+            null
+        }
+    }
+
     // Delete a product from the cart
     suspend fun deleteFromCart(cartItemId: Int) {
         try {

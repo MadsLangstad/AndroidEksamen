@@ -133,6 +133,7 @@ class MainActivity : ComponentActivity() {
         if (navController.currentBackStackEntry?.destination?.route != "productListScreen") {
             navController.popBackStack("productListScreen", false)
         } else {
+            @Suppress("DEPRECATION")
             super.onBackPressed()
         }
     }
