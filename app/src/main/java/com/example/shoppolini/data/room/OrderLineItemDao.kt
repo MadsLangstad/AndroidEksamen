@@ -13,4 +13,5 @@ interface OrderLineItemDao {
 
     @Query("SELECT * FROM order_line_items WHERE orderId = :orderId")
     suspend fun getOrderLineItemsByOrderId(orderId: Int): List<OrderLineItem>
+
 }

@@ -38,7 +38,9 @@ object OrderRepository {
 
     fun getAllOrders(): Flow<List<Order>> {
         return try {
+
             _appDatabase.orderDao().getAllOrders()
+
         } catch (e: Exception) {
             Log.e("OrderRepository", "Error fetching orders: ${e.message}")
             throw e
@@ -54,6 +56,7 @@ object OrderRepository {
             emptyList()
         }
     }
+
 
     suspend fun deleteAllOrders() {
         _appDatabase.orderDao().deleteAllOrders()

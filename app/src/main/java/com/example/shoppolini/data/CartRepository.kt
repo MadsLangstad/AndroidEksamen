@@ -10,7 +10,7 @@ object CartRepository {
 
     private lateinit var _appDatabase: AppDatabase
 
-    // Initialize the AppDatabase instance
+
     fun initiateAppDatabase(context: Context) {
         if (!::_appDatabase.isInitialized) {
             _appDatabase = Room.databaseBuilder(
@@ -22,7 +22,7 @@ object CartRepository {
         }
     }
 
-    // Add a product to the cart
+
     suspend fun addToCart(cartItem: Cart) {
         try {
             _appDatabase.cartDao().addToCart(cartItem)
@@ -31,7 +31,7 @@ object CartRepository {
         }
     }
 
-    // Get all the cart items
+
     fun getCartItems(): Flow<List<Cart>> {
         return try {
             _appDatabase.cartDao().getCartItems()
@@ -41,7 +41,7 @@ object CartRepository {
         }
     }
 
-    // Get a cart item by product id
+
     suspend fun getCartItemByProductId(productId: Int): Cart? {
         return try {
             _appDatabase.cartDao().getCartItemByProductId(productId)
@@ -60,7 +60,6 @@ object CartRepository {
     }
 
 
-    // Delete a product from the cart
     suspend fun deleteFromCart(cartItemId: Int) {
         try {
             _appDatabase.cartDao().deleteFromCart(cartItemId)
@@ -70,7 +69,7 @@ object CartRepository {
         }
     }
 
-    // Clear the cart
+
     suspend fun clearCart() {
         try {
             _appDatabase.cartDao().clearCart()
